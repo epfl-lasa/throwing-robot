@@ -1,9 +1,9 @@
 %% Load Robot Workspace Data
 clear all
 clc
-d = '/home/nadiafigueroa/dev/MATLAB_2014a/throwing-robot/workspace-data/';
+d = '/Users/Sylvain/Documents/PFE LASA/Test1/textfiles/';
 
-spheres = textread(strcat(d, 'density_align.txt'));
+spheres = textread(strcat(d, 'density_aline.txt'));
 centers = textread(strcat(d, 'center.txt'));
 
 %% Scale spheres
