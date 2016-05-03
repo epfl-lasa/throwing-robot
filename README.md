@@ -1,2 +1,2 @@
 # throwing-robot
-Research repo for ball throwing robot project.
+Research repo for object throwing robot project.
