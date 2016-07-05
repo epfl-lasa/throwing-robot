@@ -23,19 +23,28 @@
 #include "RobotLib/ForwardDynamics.h"
 #include "RobotLib/InverseDynamics.h"
 #include "RobotLib/KinematicChain.h"
+#include "ThirdPoly.h"
 
-#include "/home/sylvain/new/catkin_ws/src/robot-kinematics/include/sKinematics.h"
+
+#include "sensor_msgs/JointState.h"
+#include "std_msgs/Float32MultiArray.h"
+#include "std_msgs/String.h"
+#include "sKinematics.h"
+#include <iomanip>
+#include <iostream>
+#include <fstream>
 
 #define KUKA_DOF 7
 #define FINGER_DOF 0
 #define IK_CONSTRAINTS 9
 #define _dt (1.0/500.)
 double cJob[]  = {0.0, -PI/4.0, 0.0, -PI/2.0, 0.0, -PI/4.0, 0.0};
-enum ENUM_COMMAND{COMMAND_JOB,COMMAND_TEST};
-enum ENUM_PLANNER{PLANNER_CARTESIAN, PLANNER_JOINT,NONE};
+enum ENUM_COMMAND{COMMAND_JOB,COMMAND_TEST,COMMAND_POS};
+enum ENUM_PLANNER{PLANNER_CARTESIAN, PLANNER_JOINT,PLANNER_POS,NONE};
 enum ENUM_AXIS{AXIS_X=0, AXIS_Y, AXIS_Z};
 
-
+//class ThirdPoly;// TPOLY(KUKA_DOF);
+//ThirdPoly TPOLY(KUKA_DOF);
 
 
 class throwing_robot_lwr : public RobotInterface
@@ -56,6 +65,8 @@ public:
     virtual int                 RespondToConsoleCommand(const string cmd, const vector<string> &args);
 
 protected:
+    void                        chatterCallback_release_position(const std_msgs::Float32MultiArray::ConstPtr& RELEASE_information);
+
 sKinematics                 *mSKinematicChain;
 
 	RevoluteJointSensorGroup    mSensorsGroup;
@@ -69,6 +80,11 @@ sKinematics                 *mSKinematicChain;
 	Vector                      mJointKinematics;
 	Vector                      mJointPos;
 	Vector                      mJointPosAll;
+    Vector                      mJointPosAll_old;
+    Vector                      mJointDesPos_old;
+    Vector                      mJointVelAll;
+    Vector                      mJointAccAll;
+
 	Vector                      mJointDesPos;
 	Vector                      mJointTargetPos;
 
@@ -97,12 +113,44 @@ sKinematics                 *mSKinematicChain;
 	Vector 						mJobJoints;
 	Vector						mreleaseJoints;
 	Vector 						mJointWeights;
-	Vector					    mreleaseJoints2;
+	Vector					   	mreleaseJoints2;
 	Vector 						lTargetPos;
 	Vector						lTDirection;
 	Vector3 					lTargetDirX;
 	Vector3						lTargetDirY;
 	Vector3 					lTargetDirZ;
+	Vector 						steady_joints;
+	Vector 						steady_joints_vel;
+	Vector 						release_joints;
+    Vector 						release_joints_vel;
+    Vector                      pre_release_joints;
+    Vector                      pre_release_joints_vel;
+    Vector                      release_pos;
+    Vector                      pre_release_pos;
+
+
+    int 						in_motion1;
+    int 						in_motion2;
+    int 						in_motion3;
+    int                         instruction_got1;
+    int                         instruction_got2;
+    int                         			not_begining;
+	int 						is_given_release;
+	int 						is_achieve_release;
+    int 						in_motion;
+	int                         			i;
+    double 						counter;
+	ThirdPoly *TPOLY;
+	ros::Subscriber sub_release_position;
+    int aller;
+    int go;
+    int                         ready;
+    int                         choix;
+    int                         back;
+    int                         hhh;
+    int tr;
+    int                         waitd;
+    int                         phase;
 };
 
 
