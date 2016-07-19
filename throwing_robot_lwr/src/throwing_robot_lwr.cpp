@@ -1,18 +1,4 @@
-/*
- * Copyright (C) 2010 Learning Algorithms and Systems Laboratory, EPFL, Switzerland
- * Author: Eric Sauser
- * email:   eric.sauser@a3.epf.ch
- * website: lasa.epfl.ch
- *
- * Permission is granted to copy, distribute, and/or modify this program
- * under the terms of the GNU General Public License, version 2 or any
- * later version published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details
- */
+
 
 #include "../include/throwing_robot_lwr.h"
 
@@ -52,36 +38,36 @@ void throwing_robot_lwr::chatterCallback_release_position(const std_msgs::Float3
         go = 1;
         cout<<"A feasible velocity has been received"<<endl;
 
-         //cout<<"Joint_POS"<<release_joints[0]<<"  "<<release_joints[1]<<"  "<<release_joints[2]<<"  "<<release_joints[3]<<"  "<<release_joints[4]<<"  "<<release_joints[5]<<"  "<<release_joints[6]<<endl;
-         //cout<<"Joint_vel"<<release_joints_vel[0]<<"  "<<release_joints_vel[1]<<"  "<<release_joints_vel[2]<<"  "<<release_joints_vel[3]<<"  "<<release_joints_vel[4]<<"  "<<release_joints_vel[5]<<"  "<<release_joints_vel[6]<<endl;
+        //cout<<"Joint_POS"<<release_joints[0]<<"  "<<release_joints[1]<<"  "<<release_joints[2]<<"  "<<release_joints[3]<<"  "<<release_joints[4]<<"  "<<release_joints[5]<<"  "<<release_joints[6]<<endl;
+        //cout<<"Joint_vel"<<release_joints_vel[0]<<"  "<<release_joints_vel[1]<<"  "<<release_joints_vel[2]<<"  "<<release_joints_vel[3]<<"  "<<release_joints_vel[4]<<"  "<<release_joints_vel[5]<<"  "<<release_joints_vel[6]<<endl;
 
-         char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
-         fstream vel(vel_name, std::fstream::out );
-         if(!vel.is_open()) cout<<"problem file"<<endl;
-         vel<<release_joints_vel<<std::endl;
-         vel.close();
+        char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
+        fstream vel(vel_name, std::fstream::out );
+        if(!vel.is_open()) cout<<"problem file"<<endl;
+        vel<<release_joints_vel<<std::endl;
+        vel.close();
 
-         char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
-         fstream pos(pos_name, std::fstream::out );
-         pos<<release_joints<<std::endl;
-         pos.close();
+        char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
+        fstream pos(pos_name, std::fstream::out );
+        pos<<release_joints<<std::endl;
+        pos.close();
 
-         char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
-         fstream pre_pos(pre_pos_name, std::fstream::out);
-         pre_pos<<pre_release_joints<<std::endl;
-         pre_pos.close();
+        char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+        fstream pre_pos(pre_pos_name, std::fstream::out);
+        pre_pos<<pre_release_joints<<std::endl;
+        pre_pos.close();
 
 
         ready =1;
     }
-        return;
+    return;
 }
 
 
 
 
 throwing_robot_lwr::throwing_robot_lwr()
-:RobotInterface(){
+    :RobotInterface(){
 }
 throwing_robot_lwr::~throwing_robot_lwr(){
 }
@@ -121,41 +107,7 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     time3 = 4; // to achieve the steady state
     time4 = 3; // to steay the hand open in order to put the ball
     time5 = 5; // to achieve the steady state at the begining
-//    double positionr = M_PI / 3;
-//    release_joints(0) = positionr;
-//    release_joints(1) = positionr;
-//    release_joints(2) = positionr;
-//    release_joints(3) = positionr;
-//    release_joints(4) = positionr;
-//    release_joints(5) = positionr;
-//    release_joints(6) = positionr;
 
-//    double vitesser = 5;
-
-//    release_joints_vel(0) = vitesser;
-//    release_joints_vel(1) = vitesser;
-//    release_joints_vel(2) = vitesser;
-//    release_joints_vel(3) = vitesser;
-//    release_joints_vel(4) = vitesser;
-//    release_joints_vel(5) = vitesser;
-//    release_joints_vel(6) = vitesser;
-
-
-
-//    pre_release_joints(0) = positionr + M_PI/10;
-//    pre_release_joints(1) = positionr + M_PI/10;
-//    pre_release_joints(2) = positionr + M_PI/10;
-//    pre_release_joints(3) = positionr + M_PI/10;
-//    pre_release_joints(4) = positionr + M_PI/10;
-//    pre_release_joints(5) = positionr;
-//    pre_release_joints(6) = positionr;
-
-
-//    is_achieve_release = 0;// but not achieved yet
-//    in_motion = 0;
-//    instruction_got1 = 1;
-
-//    is_given_release = 1;
 
     aller=0;
 
@@ -171,81 +123,75 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     steady_joints(6) = -0.673888;
 
 
-    //remove files
+    //    //remove files
 
-    char vel_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
-    fstream vel1(vel_name_rel, std::fstream::out );
-    if(!vel1.is_open()) cout<<"problem file"<<endl;
-    //vel1<<release_joints_vel<<std::endl;
-    vel1.close();
+    //    char vel_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
+    //    fstream vel1(vel_name_rel, std::fstream::out );
+    //    if(!vel1.is_open()) cout<<"problem file"<<endl;
+    //    //vel1<<release_joints_vel<<std::endl;
+    //    vel1.close();
 
-    char pos_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
-    fstream pos1(pos_name_rel, std::fstream::out);
-    //pos1<<release_joints<<std::endl;
-    pos1.close();
+    //    char pos_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
+    //    fstream pos1(pos_name_rel, std::fstream::out);
+    //    //pos1<<release_joints<<std::endl;
+    //    pos1.close();
 
-    char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
-    fstream pre_pos(pre_pos_name, std::fstream::out);
-    //pre_pos<<pre_release_joints<<std::endl;
-    pre_pos.close();
+    //    char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+    //    fstream pre_pos(pre_pos_name, std::fstream::out);
+    //    //pre_pos<<pre_release_joints<<std::endl;
+    //    pre_pos.close();
 
-    char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
-    fstream vel(vel_name, std::fstream::out );
-    if(!vel.is_open()) cout<<"problem file"<<endl;
-    //vel<<mJointVelAll<<std::endl;
-    vel.close();
+    //    char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
+    //    fstream vel(vel_name, std::fstream::out );
+    //    if(!vel.is_open()) cout<<"problem file"<<endl;
+    //    //vel<<mJointVelAll<<std::endl;
+    //    vel.close();
 
-    char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
+    //    char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
 
-    fstream pos(pos_name, std::fstream::out);
-    //pos<<mJointPosAll<<std::endl;
-    pos.close();
-
-
-    char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
-    fstream vel_des(vel_name_des, std::fstream::out );
-    if(!vel_des.is_open()) cout<<"problem file"<<endl;
-    //vel_des<<mJointDesVel<<std::endl;
-    vel_des.close();
-
-    char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
-
-    fstream pos_des(pos_name_des, std::fstream::out );
-    //pos_des<<mJointDesPos<<std::endl;
-    pos_des.close();
-
-    char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
-
-    fstream pos_end(pos_name_end,  std::fstream::out );
-    //pos_end<<lPos<<std::endl;
-    pos_end.close();
+    //    fstream pos(pos_name, std::fstream::out);
+    //    //pos<<mJointPosAll<<std::endl;
+    //    pos.close();
 
 
-    //test should be removed after
+    //    char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
+    //    fstream vel_des(vel_name_des, std::fstream::out );
+    //    if(!vel_des.is_open()) cout<<"problem file"<<endl;
+    //    //vel_des<<mJointDesVel<<std::endl;
+    //    vel_des.close();
 
-    char vel_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
-    fstream vel3(vel_name3, std::fstream::out);
-    if(!vel3.is_open()) cout<<"problem file"<<endl;
-    vel3<<release_joints_vel<<std::endl;
-    vel3.close();
+    //    char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
 
-    char pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
-    fstream pos3(pos_name3,  std::fstream::out );
-    pos3<<release_joints<<std::endl;
-    pos3.close();
+    //    fstream pos_des(pos_name_des, std::fstream::out );
+    //    //pos_des<<mJointDesPos<<std::endl;
+    //    pos_des.close();
 
-    char pre_pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
-    fstream pre_pos3(pre_pos_name3,std::fstream::out );
-    pre_pos3<<pre_release_joints<<std::endl;
-    pre_pos3.close();
+    //    char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
 
-    //end test
+    //    fstream pos_end(pos_name_end,  std::fstream::out );
+    //    //pos_end<<lPos<<std::endl;
+    //    pos_end.close();
 
 
-    //release_joints = release_joints + M_PI/3; // every joint
+    //    //test should be removed after
 
-    //release_joints_vel = release_joints_vel + 3*M_PI; // every joint
-    //steady_joints_vel = steady_joints_vel + M_PI; // every joint
+    //    char vel_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
+    //    fstream vel3(vel_name3, std::fstream::out);
+    //    if(!vel3.is_open()) cout<<"problem file"<<endl;
+    //    vel3<<release_joints_vel<<std::endl;
+    //    vel3.close();
+
+    //    char pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
+    //    fstream pos3(pos_name3,  std::fstream::out );
+    //    pos3<<release_joints<<std::endl;
+    //    pos3.close();
+
+    //    char pre_pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+    //    fstream pre_pos3(pre_pos_name3,std::fstream::out );
+    //    pre_pos3<<pre_release_joints<<std::endl;
+    //    pre_pos3.close();
+
+    //    //end test
 
 
 
@@ -294,26 +240,26 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     // @min, max            : joint limits
     // @maxVel              : maximum joint speed
 
-//    mSKinematicChain->setDH(0,  0.0,  0.34, M_PI_2, 0.0, 1,  DEG2RAD( -85.), DEG2RAD( 85.), DEG2RAD(98.0)*0.90);
-//    mSKinematicChain->setDH(1,  0.0,  0.00,-M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(98.0)*0.90);
-//    mSKinematicChain->setDH(2,  0.0,  0.40,-M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(100.0)*0.90);
-//    mSKinematicChain->setDH(3,  0.0,  0.00, M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(130.0)*0.90);
-//    mSKinematicChain->setDH(4,  0.0,  0.40, M_PI_2, 0.0, 1,  DEG2RAD(-140.), DEG2RAD(140.), DEG2RAD(140.0)*0.90);
-//    mSKinematicChain->setDH(5,  0.0,  0.00,-M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(180.0)*0.90); // reduced joint angle to save the fingers
-//    //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
-//    mSKinematicChain->setDH(6, -0.05,   0.2290,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // with Alegro Hand
-//    mSKinematicChain->readyForKinematics();
+    //    mSKinematicChain->setDH(0,  0.0,  0.34, M_PI_2, 0.0, 1,  DEG2RAD( -85.), DEG2RAD( 85.), DEG2RAD(98.0)*0.90);
+    //    mSKinematicChain->setDH(1,  0.0,  0.00,-M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(98.0)*0.90);
+    //    mSKinematicChain->setDH(2,  0.0,  0.40,-M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(100.0)*0.90);
+    //    mSKinematicChain->setDH(3,  0.0,  0.00, M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(130.0)*0.90);
+    //    mSKinematicChain->setDH(4,  0.0,  0.40, M_PI_2, 0.0, 1,  DEG2RAD(-140.), DEG2RAD(140.), DEG2RAD(140.0)*0.90);
+    //    mSKinematicChain->setDH(5,  0.0,  0.00,-M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(180.0)*0.90); // reduced joint angle to save the fingers
+    //    //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
+    //    mSKinematicChain->setDH(6, -0.05,   0.2290,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // with Alegro Hand
+    //    mSKinematicChain->readyForKinematics();
 
     //mine
-//    mSKinematicChain->setDH(0,   0.0,    0.310,       M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(132.0)*0.95);
-//    mSKinematicChain->setDH(1,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(132.0)*0.95);
-//    mSKinematicChain->setDH(2,   0.0,    0.400,      -M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(128.0)*0.95);
-//    mSKinematicChain->setDH(3,   0.0,    0.000,       M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(128.0)*0.95);
-//    mSKinematicChain->setDH(4,   0.0,    0.390,       M_PI_2, 0.0, 1,  DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(204.0)*0.95);
-//    mSKinematicChain->setDH(5,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(184.0)*0.95); // reduced joint angle to save the fingers
-//    //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
-//    mSKinematicChain->setDH(6, -0.04, 0.11+0.165, 0.0, 0.0, 1, DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(184.0)*0.95); // with Alegro Hand
-//    mSKinematicChain->readyForKinematics();
+    //    mSKinematicChain->setDH(0,   0.0,    0.310,       M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(132.0)*0.95);
+    //    mSKinematicChain->setDH(1,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(132.0)*0.95);
+    //    mSKinematicChain->setDH(2,   0.0,    0.400,      -M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(128.0)*0.95);
+    //    mSKinematicChain->setDH(3,   0.0,    0.000,       M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(128.0)*0.95);
+    //    mSKinematicChain->setDH(4,   0.0,    0.390,       M_PI_2, 0.0, 1,  DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(204.0)*0.95);
+    //    mSKinematicChain->setDH(5,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(184.0)*0.95); // reduced joint angle to save the fingers
+    //    //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
+    //    mSKinematicChain->setDH(6, -0.04, 0.11+0.165, 0.0, 0.0, 1, DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(184.0)*0.95); // with Alegro Hand
+    //    mSKinematicChain->readyForKinematics();
 
 
     //sKinematics mSKinematicChain(7, 1.0/500);
@@ -425,10 +371,10 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     mSKinematicChain->getEndDirAxis(AXIS_Y, lDirY.Array());
     mSKinematicChain->getEndDirAxis(AXIS_Z, lDirZ.Array());
     //mJointDesPos.Print("desired config");
-//    if(counter >= time5 && in_motion == 1)
-//    {
-//    mJointDesPos.Print("Z");
-//    }
+    //    if(counter >= time5 && in_motion == 1)
+    //    {
+    //    mJointDesPos.Print("Z");
+    //    }
     //mSKinematicChain->getJoints(mJointDesPos.Array());
     //mJointDesPos.Print("actual config");
 
@@ -452,7 +398,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     {
 
         //end of working program
-// test with release point
+        // test with release point
         switch(phase)
         {
         case 0:
@@ -473,16 +419,12 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
 
             if(counter>=time1)
             {
-
-
                 TPOLY->SetConstraints(pre_release_joints,pre_release_joints_vel,release_joints,release_joints_vel,time2); //compute the time accordingly to the robot constraints
                 //TPOLY->SetConstraints(mJointDesPos,mJointDesVel,release_joints,release_joints_vel,5.0); //compute the time accordingly to the robot constraints
-
                 counter = 0;
                 phase = 2;
                 cout<<"phase 2"<<endl;
                 block = 0;
-
             }
             break;
 
@@ -493,10 +435,8 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
             if(counter>=time2*2/3 && block == 0 ) // we open the hand when going to the release point
             {
                 msg.data = 1;//open
-
                 open_hand.publish(msg);
                 cout<<"hand opened"<<endl;
-
                 block = 1;
                 lPos.Print("POS");
             }
@@ -507,10 +447,8 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 counter = 0;
                 phase = 3;
                 cout<<"phase 3"<<endl;
-
             }
             break;
-
         }
         case 3:
         {
@@ -519,16 +457,13 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 phase = 4;
                 hhh = 0;
                 in_motion = 0;
-
                 cout<<"phase 4"<<endl;
-
             }
             break;
 
         }
         case 4:
         {
-
             hhh++;
             //cout<<"hhh "<<hhh<<endl;
             if(hhh >= time4*1000)
@@ -537,10 +472,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 in_motion = 1;
                 counter = 0;
                 phase = 5;
-
             }
-
-
             break;
 
         }
@@ -551,21 +483,17 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 phase = 6;
                 hhh = 0;
                 in_motion = 0;
-
                 cout<<"phase 4"<<endl;
-
             }
             break;
 
         }
         case 6:
         {
-
             hhh++;
             //cout<<"hhh "<<hhh<<endl;
             if(hhh >= time4*1000)
             {
-
                 phase = 0;
                 ready = 0;
                 //instruction_got1 = 1; //to loop the motion
@@ -573,12 +501,8 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 msg.data = 0; //close
                 open_hand.publish(msg);
                 cout<<"hand closed"<<endl;
-
             }
-
-
             break;
-
         }
         case 7:
         {
@@ -591,7 +515,6 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
         }
         case 8:
         {
-
             if(counter>=time5)
             {
                 in_motion = 0;
@@ -611,72 +534,52 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
 
         }
 
-//end test with release point
+        //end test with release point
 
 
 
         mSKinematicChain->getEndPos(lPos.Array());
 
 
-        //break;
-        char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
-        fstream vel(vel_name, std::fstream::in | std::fstream::out | std::fstream::app);
-        if(!vel.is_open()) cout<<"problem file"<<endl;
-        vel<<mJointVelAll<<std::endl;
-        vel.close();
+//        //break;
+//        char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
+//        fstream vel(vel_name, std::fstream::in | std::fstream::out | std::fstream::app);
+//        if(!vel.is_open()) cout<<"problem file"<<endl;
+//        vel<<mJointVelAll<<std::endl;
+//        vel.close();
 
-        char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
+//        char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
 
-        fstream pos(pos_name, std::fstream::in | std::fstream::out | std::fstream::app);
-        pos<<mJointPosAll<<std::endl;
-        pos.close();
+//        fstream pos(pos_name, std::fstream::in | std::fstream::out | std::fstream::app);
+//        pos<<mJointPosAll<<std::endl;
+//        pos.close();
 
 
-        char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
-        fstream vel_des(vel_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
-        if(!vel_des.is_open()) cout<<"problem file"<<endl;
-        vel_des<<mJointDesVel<<std::endl;
-        vel_des.close();
+//        char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
+//        fstream vel_des(vel_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
+//        if(!vel_des.is_open()) cout<<"problem file"<<endl;
+//        vel_des<<mJointDesVel<<std::endl;
+//        vel_des.close();
 
-        char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
+//        char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
 
-        fstream pos_des(pos_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
-        pos_des<<mJointDesPos<<std::endl;
-        pos_des.close();
+//        fstream pos_des(pos_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
+//        pos_des<<mJointDesPos<<std::endl;
+//        pos_des.close();
 
-        char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
+//        char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
 
-        fstream pos_end(pos_name_end, std::fstream::in | std::fstream::out | std::fstream::app);
-        pos_end<<lPos<<std::endl;
-        pos_end.close();
+//        fstream pos_end(pos_name_end, std::fstream::in | std::fstream::out | std::fstream::app);
+//        pos_end<<lPos<<std::endl;
+//        pos_end.close();
 
         break;
     }
     case PLANNER_POS:
     {
-        hhh++;
         mJointDesPos = release_joints;
-//        if(hhh>500)
-//        {
-//            mJointDesPos = release_joints;
-//        }
-//        else
-//        {
-//            mJointDesPos =pre_release_joints;
 
-//        }
-        if(hhh>=2000) hhh=0;
         ready = 0;
-        //cout<<"On est la"<<endl;
-
-//        mJointDesPos(0)=    0.67172;
-//        mJointDesPos(1)=    1.5444;
-//        mJointDesPos(2)=    2.789700;
-//        mJointDesPos(3)=    -1.745300;
-//        mJointDesPos(4)=    1.568500;
-//        mJointDesPos(5)=    -0.524100;
-//        mJointDesPos(6)=    2.789600;
-
 
         mSKinematicChain->setJoints(mJointDesPos.Array());
 
@@ -695,51 +598,38 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdateCore(){
 
     ros::spinOnce();
 
-
-//    /cout<<"core number "<<hhh<<endl;
-
-
     mActuatorsGroup.SetJointAngles(mJointDesPos);
     mActuatorsGroup.SetJointVelocities(mJointDesVel);
     mActuatorsGroup.WriteActuators();
     mKinematicChain.Update();
 
-//    mJointDesVel = (mJointDesPos - mJointDesPos_old)/_dt;
-
-//    mJointDesPos_old = mJointDesPos;
     mSensorsGroup.ReadSensors();
-    //mJointDesPos.Print("mJointDesPos");
 
     mJointPosAll_old = mJointPosAll;
     mJointPosAll    = mSensorsGroup.GetJointAngles();
     mJointVelAll = (mJointPosAll - mJointPosAll_old)/_dt;
-    //mJointPosAll.Print("mJointPosAll");
-//    mJointVelAll.Print("mJointVelAll");
-//    mJointDesVel.Print("mJointDesVel");
+
 
     for(int i=0; i<KUKA_DOF; i++) mJointTargetPos(i)= mJointPosAll(i);
 
 
     if(mRobot->GetControlMode()!=Robot::CTRLMODE_POSITION)
-            mRobot->SetControlMode(Robot::CTRLMODE_POSITION);
-
-
-
+        mRobot->SetControlMode(Robot::CTRLMODE_POSITION);
 
     return STATUS_OK;
 }
 int throwing_robot_lwr::RespondToConsoleCommand(const string cmd, const vector<string> &args){
-	cout<<"Write your command"<<endl;
+    cout<<"Write your command"<<endl;
 
     if(cmd=="job"){
         cout<<"job 2 2"<<endl;
         mCommand = COMMAND_JOB;
 
-	}
-	else if(cmd=="test"){
+    }
+    else if(cmd=="test"){
         cout<<"tets  1 1"<<endl;
         mCommand = COMMAND_TEST;
-	}
+    }
     else if(cmd=="pos"){
         cout<<"tets  1 1"<<endl;
         mCommand = COMMAND_POS;
@@ -750,8 +640,8 @@ int throwing_robot_lwr::RespondToConsoleCommand(const string cmd, const vector<s
 
 
 extern "C"{
-    // These two "C" functions manage the creation and destruction of the class
-    throwing_robot_lwr* create(){return new throwing_robot_lwr();}
-    void destroy(throwing_robot_lwr* module){delete module;}
+// These two "C" functions manage the creation and destruction of the class
+throwing_robot_lwr* create(){return new throwing_robot_lwr();}
+void destroy(throwing_robot_lwr* module){delete module;}
 }
 
