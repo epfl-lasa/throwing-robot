@@ -34,11 +34,14 @@
 #include <iostream>
 #include <fstream>
 #include <std_msgs/Int8.h>
+#include <boost/date_time.hpp>
 
 #define KUKA_DOF 7
 #define FINGER_DOF 0
 #define IK_CONSTRAINTS 9
 #define _dt (1.0/500.)
+//#define _dt (0.11)
+
 double cJob[]  = {0.0, -PI/4.0, 0.0, -PI/2.0, 0.0, -PI/4.0, 0.0};
 enum ENUM_COMMAND{COMMAND_JOB,COMMAND_TEST,COMMAND_POS};
 enum ENUM_PLANNER{PLANNER_CARTESIAN, PLANNER_JOINT,PLANNER_POS,NONE};
@@ -160,7 +163,8 @@ sKinematics                 *mSKinematicChain;
     int                         time5;
     int                         block;
     std_msgs::Int8              msg;
-
+    boost::posix_time::ptime    start_time;
+    boost::posix_time::time_duration diff;
 };
 
 

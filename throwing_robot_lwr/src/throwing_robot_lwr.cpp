@@ -55,18 +55,18 @@ void throwing_robot_lwr::chatterCallback_release_position(const std_msgs::Float3
          //cout<<"Joint_POS"<<release_joints[0]<<"  "<<release_joints[1]<<"  "<<release_joints[2]<<"  "<<release_joints[3]<<"  "<<release_joints[4]<<"  "<<release_joints[5]<<"  "<<release_joints[6]<<endl;
          //cout<<"Joint_vel"<<release_joints_vel[0]<<"  "<<release_joints_vel[1]<<"  "<<release_joints_vel[2]<<"  "<<release_joints_vel[3]<<"  "<<release_joints_vel[4]<<"  "<<release_joints_vel[5]<<"  "<<release_joints_vel[6]<<endl;
 
-         char vel_name[] = "../../../../Dropbox/LASA/My project/motion study/release_vel.txt";
+         char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
          fstream vel(vel_name, std::fstream::out );
          if(!vel.is_open()) cout<<"problem file"<<endl;
          vel<<release_joints_vel<<std::endl;
          vel.close();
 
-         char pos_name[] = "../../../../Dropbox/LASA/My project/motion study/release_pos.txt";
+         char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
          fstream pos(pos_name, std::fstream::out );
          pos<<release_joints<<std::endl;
          pos.close();
 
-         char pre_pos_name[] = "../../../../Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+         char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
          fstream pre_pos(pre_pos_name, std::fstream::out);
          pre_pos<<pre_release_joints<<std::endl;
          pre_pos.close();
@@ -169,48 +169,48 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
 
     //remove files
 
-    char vel_name_rel[] = "../../../../Dropbox/LASA/My project/motion study/release_vel.txt";
+    char vel_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
     fstream vel1(vel_name_rel, std::fstream::out );
     if(!vel1.is_open()) cout<<"problem file"<<endl;
     //vel1<<release_joints_vel<<std::endl;
     vel1.close();
 
-    char pos_name_rel[] = "../../../../Dropbox/LASA/My project/motion study/release_pos.txt";
+    char pos_name_rel[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
     fstream pos1(pos_name_rel, std::fstream::out);
     //pos1<<release_joints<<std::endl;
     pos1.close();
 
-    char pre_pos_name[] = "../../../../Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+    char pre_pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
     fstream pre_pos(pre_pos_name, std::fstream::out);
     //pre_pos<<pre_release_joints<<std::endl;
     pre_pos.close();
 
-    char vel_name[] = "../../../../Dropbox/LASA/My project/motion study/vel_actual.txt";
+    char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
     fstream vel(vel_name, std::fstream::out );
     if(!vel.is_open()) cout<<"problem file"<<endl;
     //vel<<mJointVelAll<<std::endl;
     vel.close();
 
-    char pos_name[] = "../../../../Dropbox/LASA/My project/motion study/pos_actual.txt";
+    char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
 
     fstream pos(pos_name, std::fstream::out);
     //pos<<mJointPosAll<<std::endl;
     pos.close();
 
 
-    char vel_name_des[] = "../../../../Dropbox/LASA/My project/motion study/vel_desired.txt";
+    char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
     fstream vel_des(vel_name_des, std::fstream::out );
     if(!vel_des.is_open()) cout<<"problem file"<<endl;
     //vel_des<<mJointDesVel<<std::endl;
     vel_des.close();
 
-    char pos_name_des[] = "../../../../Dropbox/LASA/My project/motion study/pos_desired.txt";
+    char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
 
     fstream pos_des(pos_name_des, std::fstream::out );
     //pos_des<<mJointDesPos<<std::endl;
     pos_des.close();
 
-    char pos_name_end[] = "../../../../Dropbox/LASA/My project/motion study/pos_end_effect.txt";
+    char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
 
     fstream pos_end(pos_name_end,  std::fstream::out );
     //pos_end<<lPos<<std::endl;
@@ -219,18 +219,18 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
 
     //test should be removed after
 
-    char vel_name3[] = "../../../../Dropbox/LASA/My project/motion study/release_vel.txt";
+    char vel_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_vel.txt";
     fstream vel3(vel_name3, std::fstream::out);
     if(!vel3.is_open()) cout<<"problem file"<<endl;
     vel3<<release_joints_vel<<std::endl;
     vel3.close();
 
-    char pos_name3[] = "../../../../Dropbox/LASA/My project/motion study/release_pos.txt";
+    char pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pos.txt";
     fstream pos3(pos_name3,  std::fstream::out );
     pos3<<release_joints<<std::endl;
     pos3.close();
 
-    char pre_pos_name3[] = "../../../../Dropbox/LASA/My project/motion study/release_pre_pos.txt";
+    char pre_pos_name3[] = "/home/sylvain/Dropbox/LASA/My project/motion study/release_pre_pos.txt";
     fstream pre_pos3(pre_pos_name3,std::fstream::out );
     pre_pos3<<pre_release_joints<<std::endl;
     pre_pos3.close();
@@ -387,11 +387,9 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     open_hand = n->advertise<std_msgs::Int8>("hand", 100);
 
     TPOLY = new	ThirdPoly(KUKA_DOF);
-
-    TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time5);
     phase = 5;
-    counter = 0;
-    in_motion = 1;
+
+
 
     AddConsoleCommand("test");
     AddConsoleCommand("job");
@@ -416,12 +414,21 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     ros::spinOnce();
     //cout<<"normal number "<<hhh<<endl;
 
-    mSKinematicChain->setJoints(mJointKinematics.Array());
+    //mSKinematicChain->setJoints(mJointKinematics.Array());
+    mSKinematicChain->setJoints(mJointDesPos.Array());
     mSKinematicChain->getEndPos(lPos.Array());
     mSKinematicChain->getEndDirAxis(AXIS_X, lDirX.Array());
     mSKinematicChain->getEndDirAxis(AXIS_Y, lDirY.Array());
     mSKinematicChain->getEndDirAxis(AXIS_Z, lDirZ.Array());
-    mSKinematicChain->getJoints(mJointDesPos.Array());
+    //mJointDesPos.Print("desired config");
+//    if(counter >= time5 && in_motion == 1)
+//    {
+//    mJointDesPos.Print("Z");
+//    }
+    //mSKinematicChain->getJoints(mJointDesPos.Array());
+    //mJointDesPos.Print("actual config");
+
+    //mSKinematicChain->getJoints(mJointDesPos.Array());
 
     switch(mCommand){
     case COMMAND_TEST :
@@ -439,7 +446,6 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     case PLANNER_CARTESIAN:
 
     {
-
 
         //end of working program
 // test with release point
@@ -485,6 +491,8 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 msg.data = 1;//open
 
                 open_hand.publish(msg);
+                cout<<"hand opened"<<endl;
+
                 block = 1;
                 lPos.Print("POS");
             }
@@ -528,20 +536,35 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
                 hhh = 0;
                 msg.data = 0; //close
                 open_hand.publish(msg);
+                cout<<"hand closed"<<endl;
 
             }
 
 
-
+            break;
 
         }
         case 5:
         {
+            TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time5);
+            counter = 0;
+            in_motion = 1;
+            phase = 6;
+            cout<<"Phase 6"<<endl;
+            break;
+        }
+        case 6:
+        {
+
             if(counter>=time5)
             {
                 in_motion = 0;
                 phase =0;
+                cout<<"phase init"<<endl;
+                //mJointDesPos.Print("config");
+                //counter = 0;
             }
+            break;
         }
 
         }
@@ -560,32 +583,32 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
 
 
         //break;
-        char vel_name[] = "../../../../Dropbox/LASA/My project/motion study/vel_actual.txt";
+        char vel_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_actual.txt";
         fstream vel(vel_name, std::fstream::in | std::fstream::out | std::fstream::app);
         if(!vel.is_open()) cout<<"problem file"<<endl;
         vel<<mJointVelAll<<std::endl;
         vel.close();
 
-        char pos_name[] = "../../../../Dropbox/LASA/My project/motion study/pos_actual.txt";
+        char pos_name[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_actual.txt";
 
         fstream pos(pos_name, std::fstream::in | std::fstream::out | std::fstream::app);
         pos<<mJointPosAll<<std::endl;
         pos.close();
 
 
-        char vel_name_des[] = "../../../../Dropbox/LASA/My project/motion study/vel_desired.txt";
+        char vel_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/vel_desired.txt";
         fstream vel_des(vel_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
         if(!vel_des.is_open()) cout<<"problem file"<<endl;
         vel_des<<mJointDesVel<<std::endl;
         vel_des.close();
 
-        char pos_name_des[] = "../../../../Dropbox/LASA/My project/motion study/pos_desired.txt";
+        char pos_name_des[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_desired.txt";
 
         fstream pos_des(pos_name_des, std::fstream::in | std::fstream::out | std::fstream::app);
         pos_des<<mJointDesPos<<std::endl;
         pos_des.close();
 
-        char pos_name_end[] = "../../../../Dropbox/LASA/My project/motion study/pos_end_effect.txt";
+        char pos_name_end[] = "/home/sylvain/Dropbox/LASA/My project/motion study/pos_end_effect.txt";
 
         fstream pos_end(pos_name_end, std::fstream::in | std::fstream::out | std::fstream::app);
         pos_end<<lPos<<std::endl;
@@ -653,7 +676,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdateCore(){
 
     mJointPosAll_old = mJointPosAll;
     mJointPosAll    = mSensorsGroup.GetJointAngles();
-    mJointVelAll = (mJointPosAll - mJointPosAll_old)/_dt;
+    mJointVelAll = (mJointPosAll - mJointPosAll_old)/(2*_dt);
     //mJointPosAll.Print("mJointPosAll");
 //    mJointVelAll.Print("mJointVelAll");
 //    mJointDesVel.Print("mJointDesVel");
@@ -663,7 +686,6 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdateCore(){
 
     if(mRobot->GetControlMode()!=Robot::CTRLMODE_POSITION)
             mRobot->SetControlMode(Robot::CTRLMODE_POSITION);
-
 
 
 
