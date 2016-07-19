@@ -56,18 +56,18 @@ void throwing_robot_lwr::chatterCallback_release_position(const std_msgs::Float3
          //cout<<"Joint_vel"<<release_joints_vel[0]<<"  "<<release_joints_vel[1]<<"  "<<release_joints_vel[2]<<"  "<<release_joints_vel[3]<<"  "<<release_joints_vel[4]<<"  "<<release_joints_vel[5]<<"  "<<release_joints_vel[6]<<endl;
 
          char vel_name[] = "../../../../Dropbox/LASA/My project/motion study/release_vel.txt";
-         fstream vel(vel_name, std::fstream::in | std::fstream::out | std::fstream::app);
+         fstream vel(vel_name, std::fstream::out );
          if(!vel.is_open()) cout<<"problem file"<<endl;
          vel<<release_joints_vel<<std::endl;
          vel.close();
 
          char pos_name[] = "../../../../Dropbox/LASA/My project/motion study/release_pos.txt";
-         fstream pos(pos_name, std::fstream::in | std::fstream::out | std::fstream::app);
+         fstream pos(pos_name, std::fstream::out );
          pos<<release_joints<<std::endl;
          pos.close();
 
          char pre_pos_name[] = "../../../../Dropbox/LASA/My project/motion study/release_pre_pos.txt";
-         fstream pre_pos(pre_pos_name, std::fstream::in | std::fstream::out | std::fstream::app);
+         fstream pre_pos(pre_pos_name, std::fstream::out);
          pre_pos<<pre_release_joints<<std::endl;
          pre_pos.close();
 
@@ -112,7 +112,11 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     release_joints_vel.Zero();
     pre_release_joints_vel.Zero();
 
-
+    time1 = 5; // to achieve the pre_release point
+    time2 = 3; // to achieve the release point
+    time3 = 4; // to achieve the steady state
+    time4 = 3; // to steay the hand open in order to put the ball
+    time5 = 5; // to achieve the steady state at the begining
 //    double positionr = M_PI / 3;
 //    release_joints(0) = positionr;
 //    release_joints(1) = positionr;
@@ -152,6 +156,15 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     aller=0;
 
 
+    //steady state in order to put the ball in the hand
+
+    steady_joints(0) =  0.555527;
+    steady_joints(1) =  0.116686;
+    steady_joints(2) = -0.786117;
+    steady_joints(3) = -1.933571;
+    steady_joints(4) = -0.910833;
+    steady_joints(5) = -0.352392;
+    steady_joints(6) = -0.673888;
 
 
     //remove files
@@ -231,9 +244,6 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     //steady_joints_vel = steady_joints_vel + M_PI; // every joint
 
 
-    TPOLY = new	ThirdPoly(KUKA_DOF);
-
-
 
     // resize the global variables
     mInitialJointPos.Resize(KUKA_DOF);
@@ -302,49 +312,29 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
 //    mSKinematicChain->readyForKinematics();
 
 
-    //without allegro hand
-      mSKinematicChain->setDH(0,   0.0,    0.310,       M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(132.0)*0.95);
-      mSKinematicChain->setDH(1,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(132.0)*0.95);
-      mSKinematicChain->setDH(2,   0.0,    0.400,      -M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(128.0)*0.95);
-      mSKinematicChain->setDH(3,   0.0,    0.000,       M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(128.0)*0.95);
-      mSKinematicChain->setDH(4,   0.0,    0.390,       M_PI_2, 0.0, 1,  DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(204.0)*0.95);
-      mSKinematicChain->setDH(5,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(184.0)*0.95); // reduced joint angle to save the fingers
-      //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
-      mSKinematicChain->setDH(6, -0.04, 0, 0.0, 0.0, 1, DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(184.0)*0.95); // with Alegro Hand
-      mSKinematicChain->readyForKinematics();
+    //sKinematics mSKinematicChain(7, 1.0/500);
+    mSKinematicChain->setDH(0,   0.0,    0.310,       M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(132.0)*0.95);
+    mSKinematicChain->setDH(1,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD(-110.), DEG2RAD(110.), DEG2RAD(132.0)*0.95);
+    mSKinematicChain->setDH(2,   0.0,    0.4,        -M_PI_2, 0.0, 1,  DEG2RAD(-160.), DEG2RAD(160.), DEG2RAD(128.0)*0.95);
+    mSKinematicChain->setDH(3,   0.0,    0.000,       M_PI_2, 0.0, 1,  DEG2RAD(-100.), DEG2RAD(100.), DEG2RAD(128.0)*0.95);
+    mSKinematicChain->setDH(4,   0.0,    0.390,       M_PI_2, 0.0, 1,  DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(204.0)*0.95);
+    mSKinematicChain->setDH(5,   0.0,    0.000,      -M_PI_2, 0.0, 1,  DEG2RAD( -90.), DEG2RAD( 90.), DEG2RAD(184.0)*0.95); // reduced joint angle to save the fingers
+    //	mSKinematicChain->setDH(6, 0.0, 0.1260,    0.0, 0.0, 1,  DEG2RAD(-120.), DEG2RAD(120.), DEG2RAD(180.0)*0.90); // for sim lab
+    mSKinematicChain->setDH(6, -0.04, 0.117+0.18, 0.0, 0.0, 1, DEG2RAD(-170.), DEG2RAD(170.), DEG2RAD(184.0)*0.95); // with Alegro Hand
 
-    // T0 is a transformation matrix from global basement to base coordinate of 0th links
-    // T0 are allocated by Identity matrix default. (if you not call this function T0 = I )
     double T0[4][4];
     for(int i=0; i<4; i++)
-        for(int j=0; j<4; j++)
-            T0[i][j] = 0.0;
+        for(int j=0; j<4; j++) T0[i][j] = 0.0;
 
     T0[0][0] = 1;
     T0[1][1] = 1;
     T0[2][2] = 1;
     T0[3][3] = 1;
+
     mSKinematicChain->setT0(T0);
-
-
-    MathLib::Matrix3 mTF;
-    double TF[4][4];
-    for(int i=0; i<4; i++)
-        for(int j=0; j<4; j++)
-            TF[i][j] = 0.0;
-    TF[3][3] = 1;
-    mTF = Matrix3::SRotationY(M_PI/4.0);
-
-    for(int i=0; i<3; i++)
-        for(int j=0; j<3; j++)
-            TF[i][j] = mTF(i,j);
-
-    //TF[1][3] = 0.03;
-
-    // ready for kinematics
+    mSKinematicChain->setTF(T0);
     mSKinematicChain->readyForKinematics();
 
-    mSKinematicChain->setTF(TF);
 
     // variable for ik
     mJacobian3.Resize(3,KUKA_DOF);
@@ -394,9 +384,14 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
 
 
     sub_release_position = n->subscribe("joint_velocities", 3, & throwing_robot_lwr::chatterCallback_release_position,this);
+    open_hand = n->advertise<std_msgs::Int8>("hand", 100);
 
+    TPOLY = new	ThirdPoly(KUKA_DOF);
 
-
+    TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time5);
+    phase = 5;
+    counter = 0;
+    in_motion = 1;
 
     AddConsoleCommand("test");
     AddConsoleCommand("job");
@@ -444,158 +439,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     case PLANNER_CARTESIAN:
 
     {
-//        if(instruction_got1==1 && in_motion == 0 )
-//        {
 
-//            TPOLY->SetConstraints(mJointDesPos,mJointDesPos,pre_release_joints,pre_release_joints_vel,3.0); //compute the time accordingly to the robot constraints
-//            in_motion = 1;
-//            cout<<"1"<<endl;
-//            counter = 0;
-//        }
-
-//        if(counter >=3.0 && in_motion == 1 && instruction_got1 == 1 )
-//        {
-
-//            in_motion = 0;
-//            instruction_got1 = 0;
-//            is_given_release = 1;
-//            cout<<"2"<<endl;
-
-
-//            TPOLY->SetConstraints(mJointDesPos,mJointDesPos,release_joints,release_joints_vel,3.0); //compute the time accordingly to the robot constraints
-//            is_given_release = 0;
-//            in_motion = 1;
-//            counter = 0;
-//            not_begining = 0;
-
-//            aller = 1;
-//            cout<<"3"<<endl;
-
-//        }
-
-
-
-//        if(counter >=3.0 && in_motion == 1 && aller == 1 )
-//        {
-//            counter = 0;
-
-//            TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,3.0); //compute the time accordingly to the robot constraints
-
-//            //cout<<"counter = "<<counter<<endl;
-//            cout<<"act vel = "<<mJointVelAll<<endl;
-//            //cout<<"des vel = "<<mJointDesVel<<endl;
-//            cout<<"act pos = "<<mJointPosAll<<endl;
-//            cout<<"des pos = "<<mJointDesPos<<endl;
-//            //TPOLY->SetConstraints(release_joints,release_joints_vel,steady_joints,steady_joints_vel,5.0); //compute the time accordingly to the robot constraints
-
-//            counter = 0;
-//            not_begining = 1;
-//            cout<<"release point achieved"<<endl;
-//            aller = 0;
-//            cout<<"4"<<endl;
-//            mSKinematicChain->getEndPos(lPos.Array());
-//            ROS_INFO_STREAM("POS : "<<lPos);
-
-//        }
-
-
-//        //if(counter > 4.9 && counter < 5.1 ) cout<<"counter = "<<counter<<endl;
-
-//        if(counter>=3.0 && not_begining == 1)
-//        {
-//            cout<<":/"<<endl;
-//            in_motion = 0;
-//            not_begining = 0;
-
-//            counter = 0;
-//            ready = 0;
-//            is_given_release = 0;
-//            //instruction_got1 = 1;
-//            cout<<"5"<<endl;
-
-//        }
-
-//        if(in_motion == 1)
-//        {
-
-//            counter = counter + _dt ;
-
-//            TPOLY->Get(counter,mJointDesPos, mJointDesVel);
-
-
-//        }
-
-
-        // this works
-
-//                if(waitd == 0)
-//                {
-//                    if(instruction_got1==1 && in_motion == 0 )
-//                    {
-
-//                        TPOLY->SetConstraints(mJointDesPos,mJointDesVel,release_joints,pre_release_joints_vel,5.0); //compute the time accordingly to the robot constraints
-//                        instruction_got1 = 0;
-//                        in_motion = 1;
-//                        //cout<<"1"<<endl;
-//                        counter = 0;
-//                        back =0;
-//                        tr = 0;
-//                        cout<<"2"<<endl;
-
-
-//                    }
-//                    if(counter>=5.00 && in_motion == 1 && tr == 0 && back ==0)
-//                    {
-//                        counter = counter ;//- _dt;
-//                        tr = 1;
-//                    }
-//                    if(counter>=5.00 && in_motion == 1 && tr ==1 && back ==0)
-//                    {
-//                        TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,5.0); //compute the time accordingly to the robot constraints
-//                        //TPOLY->SetConstraints(mJointPosAll,mJointVelAll,steady_joints,steady_joints_vel,3.0); //compute the time accordingly to the robot constraints
-
-//                        counter = 0;
-//                        back = 1;
-//                        tr = 0;
-//                        cout<<"3"<<endl;
-
-//                    }
-
-//                    if(counter>=5.0 && back == 1)
-//                    {
-//                        counter = 0;
-//                        back = 0;
-//                        in_motion = 0;
-//                        instruction_got1 = 1;
-
-//                        cout<<"4"<<endl;
-//                        waitd = 1;
-
-//                        hhh = 0;
-
-//                    }
-
-
-//                    if(in_motion == 1)
-//                    {
-//                        counter = counter + _dt ;
-//                        TPOLY->Get(counter,mJointDesPos, mJointDesVel);
-//                        //TPOLY->Get(counter,mJointDesPos);
-
-//                        //cout<<"pos1 "<<mJointDesPos<<endl;
-
-//                    }
-
-//                }
-//                else
-//                {
-//                    hhh++;
-//                    if(hhh>=500)
-//                    {
-
-//                        waitd = 0;
-//                    }
-//                }
 
         //end of working program
 // test with release point
@@ -605,7 +449,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
         {
             if(instruction_got1==1)
             {
-                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,pre_release_joints,pre_release_joints_vel,5.0);
+                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,pre_release_joints,pre_release_joints_vel,time1);
                 phase = 1;
                 in_motion = 1;
                 counter = 0;
@@ -617,16 +461,17 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
         case 1:
         {
 
-            if(counter>=5.0)
+            if(counter>=time1)
             {
 
 
-                TPOLY->SetConstraints(pre_release_joints,pre_release_joints_vel,release_joints,release_joints_vel,5.0); //compute the time accordingly to the robot constraints
+                TPOLY->SetConstraints(pre_release_joints,pre_release_joints_vel,release_joints,release_joints_vel,time2); //compute the time accordingly to the robot constraints
                 //TPOLY->SetConstraints(mJointDesPos,mJointDesVel,release_joints,release_joints_vel,5.0); //compute the time accordingly to the robot constraints
 
                 counter = 0;
                 phase = 2;
                 cout<<"phase 2"<<endl;
+                block = 0;
 
             }
             break;
@@ -635,9 +480,18 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
         case 2:
         {
 
-            if(counter>=5.0)
+            if(counter>=time2*2/3 && block == 0 ) // we open the hand when going to the release point
             {
-                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,5.0); //compute the time accordingly to the robot constraints
+                msg.data = 1;//open
+
+                open_hand.publish(msg);
+                block = 1;
+                lPos.Print("POS");
+            }
+
+            if(counter>=time2)
+            {
+                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time3); //compute the time accordingly to the robot constraints
                 counter = 0;
                 phase = 3;
                 cout<<"phase 3"<<endl;
@@ -648,7 +502,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
         }
         case 3:
         {
-            if(counter>=5.0)
+            if(counter>=time3)
             {
                 phase = 4;
                 hhh = 0;
@@ -665,18 +519,29 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
 
             hhh++;
             //cout<<"hhh "<<hhh<<endl;
-            if(hhh >= 500)
+            if(hhh >= time4*1000)
             {
 
                 phase = 0;
                 ready = 0;
                 //instruction_got1 = 1; //to loop the motion
                 hhh = 0;
+                msg.data = 0; //close
+                open_hand.publish(msg);
+
             }
 
 
 
 
+        }
+        case 5:
+        {
+            if(counter>=time5)
+            {
+                in_motion = 0;
+                phase =0;
+            }
         }
 
         }
@@ -732,24 +597,38 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
     {
         hhh++;
         mJointDesPos = release_joints;
-        if(hhh>500)
-        {
-            mJointDesPos = release_joints;
-        }
-        else
-        {
-            mJointDesPos =pre_release_joints;
+//        if(hhh>500)
+//        {
+//            mJointDesPos = release_joints;
+//        }
+//        else
+//        {
+//            mJointDesPos =pre_release_joints;
 
-        }
+//        }
         if(hhh>=2000) hhh=0;
         ready = 0;
         //cout<<"On est la"<<endl;
+
+//        mJointDesPos(0)=    0.67172;
+//        mJointDesPos(1)=    1.5444;
+//        mJointDesPos(2)=    2.789700;
+//        mJointDesPos(3)=    -1.745300;
+//        mJointDesPos(4)=    1.568500;
+//        mJointDesPos(5)=    -0.524100;
+//        mJointDesPos(6)=    2.789600;
+
+
+        mSKinematicChain->setJoints(mJointDesPos.Array());
+
+
         break;
     }
     }
     mSKinematicChain->setJoints(mJointDesPos.Array());
     mJointKinematics.Set(mJointDesPos);
-
+    mSKinematicChain->getEndPos(lPos.Array());
+    //ROS_INFO_STREAM("end _POS"<<lPos);
 
     return STATUS_OK;
 }

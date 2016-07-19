@@ -33,6 +33,7 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <std_msgs/Int8.h>
 
 #define KUKA_DOF 7
 #define FINGER_DOF 0
@@ -140,8 +141,9 @@ sKinematics                 *mSKinematicChain;
     int 						in_motion;
 	int                         			i;
     double 						counter;
-	ThirdPoly *TPOLY;
-	ros::Subscriber sub_release_position;
+    ThirdPoly                   *TPOLY;
+    ros::Subscriber             sub_release_position;
+    ros::Publisher              open_hand;
     int aller;
     int go;
     int                         ready;
@@ -151,6 +153,14 @@ sKinematics                 *mSKinematicChain;
     int tr;
     int                         waitd;
     int                         phase;
+    int                         time1;
+    int                         time2;
+    int                         time3;
+    int                         time4;
+    int                         time5;
+    int                         block;
+    std_msgs::Int8              msg;
+
 };
 
 
