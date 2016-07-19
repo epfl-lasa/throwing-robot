@@ -131,7 +131,8 @@ sKinematics                 *mSKinematicChain;
     Vector                      pre_release_joints_vel;
     Vector                      release_pos;
     Vector                      pre_release_pos;
-
+    Vector                      straight_config_pos;
+    Vector                      straight_config_vel;
 
     int 						in_motion1;
     int 						in_motion2;

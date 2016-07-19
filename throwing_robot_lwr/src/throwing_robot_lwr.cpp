@@ -105,7 +105,11 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     release_joints_vel.Resize(KUKA_DOF);
     pre_release_joints_vel.Resize(KUKA_DOF);
     pre_release_joints.Resize(KUKA_DOF);
+    straight_config_pos.Resize(KUKA_DOF);
+    straight_config_vel.Resize(KUKA_DOF);
 
+    straight_config_pos.Zero();
+    straight_config_vel.Zero();
     steady_joints.Zero();
     steady_joints_vel.Zero();
     release_joints.Zero();
@@ -113,7 +117,7 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     pre_release_joints_vel.Zero();
 
     time1 = 5; // to achieve the pre_release point
-    time2 = 3; // to achieve the release point
+    time2 = 1.5; // to achieve the release point
     time3 = 4; // to achieve the steady state
     time4 = 3; // to steay the hand open in order to put the ball
     time5 = 5; // to achieve the steady state at the begining
@@ -387,7 +391,7 @@ RobotInterface::Status throwing_robot_lwr::RobotInit(){
     open_hand = n->advertise<std_msgs::Int8>("hand", 100);
 
     TPOLY = new	ThirdPoly(KUKA_DOF);
-    phase = 5;
+    phase = 7;
 
 
 
@@ -499,7 +503,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
 
             if(counter>=time2)
             {
-                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time3); //compute the time accordingly to the robot constraints
+                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,straight_config_pos,straight_config_vel,time3); //compute the time accordingly to the robot constraints
                 counter = 0;
                 phase = 3;
                 cout<<"phase 3"<<endl;
@@ -529,6 +533,38 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
             //cout<<"hhh "<<hhh<<endl;
             if(hhh >= time4*1000)
             {
+                TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time3); //compute the time accordingly to the robot constraints
+                in_motion = 1;
+                counter = 0;
+                phase = 5;
+
+            }
+
+
+            break;
+
+        }
+        case 5:
+        {
+            if(counter>=time3)
+            {
+                phase = 6;
+                hhh = 0;
+                in_motion = 0;
+
+                cout<<"phase 4"<<endl;
+
+            }
+            break;
+
+        }
+        case 6:
+        {
+
+            hhh++;
+            //cout<<"hhh "<<hhh<<endl;
+            if(hhh >= time4*1000)
+            {
 
                 phase = 0;
                 ready = 0;
@@ -544,16 +580,16 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdate(){
             break;
 
         }
-        case 5:
+        case 7:
         {
             TPOLY->SetConstraints(mJointDesPos,mJointDesVel,steady_joints,steady_joints_vel,time5);
             counter = 0;
             in_motion = 1;
-            phase = 6;
-            cout<<"Phase 6"<<endl;
+            phase = 8;
+            cout<<"Phase 8"<<endl;
             break;
         }
-        case 6:
+        case 8:
         {
 
             if(counter>=time5)
@@ -676,7 +712,7 @@ RobotInterface::Status throwing_robot_lwr::RobotUpdateCore(){
 
     mJointPosAll_old = mJointPosAll;
     mJointPosAll    = mSensorsGroup.GetJointAngles();
-    mJointVelAll = (mJointPosAll - mJointPosAll_old)/(2*_dt);
+    mJointVelAll = (mJointPosAll - mJointPosAll_old)/_dt;
     //mJointPosAll.Print("mJointPosAll");
 //    mJointVelAll.Print("mJointVelAll");
 //    mJointDesVel.Print("mJointDesVel");
